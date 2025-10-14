@@ -5,8 +5,6 @@ import Modal from "./components/resusable/Modal";
 import Button from "./components/resusable/Button";
 import AddForm from "./components/AddForm";
 
-//———————————————————————————————— variables ————————————————————————————————
-
 function App() {
   //———————————————————————————————— state ————————————————————————————————
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +30,7 @@ function App() {
       </div>
       {/*———————————————————————————————— Add Modal ————————————————————————————————*/}
       <Modal isOpen={isOpen} closeModal={closeModal} title="Add New Product">
-        <AddForm />
+        <AddForm closeModal={closeModal} />
       </Modal>
       <Products />
     </main>
