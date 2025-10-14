@@ -1,23 +1,20 @@
+import type { IValidation } from "../interfaces/interfaces";
+
 /**
  *
  * @param product - The product object with title, description, imageURL and price properties
  * @returns The error object that has error messages corresponding to the current validation error
  */
 
-export const addProductSchema = (product: {
-  title: string;
-  description: string;
-  imageURL: string;
-  price: string;
-}) => {
+export const addProductSchema = (product: IValidation) => {
   const { title, description, imageURL, price } = product;
 
-  const errors: {
-    title: string;
-    description: string;
-    imageURL: string;
-    price: string;
-  } = { title: "", description: "", imageURL: "", price: "" };
+  const errors: IValidation = {
+    title: "",
+    description: "",
+    imageURL: "",
+    price: "",
+  };
 
   //———————————————————————————————— Title Validation ————————————————————————————————
   if (!title.trim()) {
@@ -36,7 +33,7 @@ export const addProductSchema = (product: {
   }
 
   //———————————————————————————————— ImageURL Validation ————————————————————————————————
-  const isImgUrlValid = /^(http|https|ftp):\/\/[^ "]{1,}$/.test(imageURL);
+  const isImgUrlValid = /^(http|https|ftp):\/\/[^ "]{3,}$/.test(imageURL);
 
   if (!imageURL.trim()) {
     errors.imageURL = "Product imageURL is required";

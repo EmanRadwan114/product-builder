@@ -2,8 +2,9 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import { formInputs } from "../data/formInputs";
 import Button from "./resusable/Button";
 import Input from "./resusable/Input";
-import type { IProduct } from "../interfaces/interfaces";
+import type { IProduct, IValidation } from "../interfaces/interfaces";
 import { addProductSchema } from "../validation/schemas";
+import ErrorMsg from "./resusable/ErrorMsg";
 
 //———————————————————————————————— Interface ————————————————————————————————
 interface IProps {
@@ -22,12 +23,23 @@ const productInitValue: IProduct = {
 const AddForm = ({ closeModal }: IProps) => {
   //———————————————————————————————— State ————————————————————————————————
   const [newProduct, setNewProduct] = useState<IProduct>(productInitValue);
+  const [errorMsgs, setErrorMsgs] = useState<IValidation>({
+    title: "",
+    description: "",
+    imageURL: "",
+    price: "",
+  });
 
   //———————————————————————————————— Handlers ————————————————————————————————
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setNewProduct((product) => {
-      return { ...product, [e.target.name]: e.target.value };
-    });
+    const updatedProduct = {
+      ...newProduct,
+      [e.target.name]: e.target.value,
+    };
+
+    setNewProduct(updatedProduct);
+
+    setErrorMsgs(addProductSchema(updatedProduct));
   };
 
   const handleSumbit = (e: FormEvent<HTMLFormElement>): void => {
@@ -46,9 +58,10 @@ const AddForm = ({ closeModal }: IProps) => {
 
     const hasErrorMsgs = Object.values(errors).some((val) => val !== "");
 
-    if (hasErrorMsgs) return;
-
-    console.log(hasErrorMsgs);
+    if (hasErrorMsgs) {
+      setErrorMsgs(errors);
+      return;
+    }
   };
 
   //———————————————————————————————— View ————————————————————————————————
@@ -69,13 +82,20 @@ const AddForm = ({ closeModal }: IProps) => {
             value={newProduct[input.name]}
             onChange={handleChange}
           />
+          <ErrorMsg msg={errorMsgs[input.name]} />
         </div>
       ))}
       <div className="flex space-x-3">
-        <Button className="text-white bg-zinc-800" onClick={closeModal}>
+        <Button
+          className="text-white bg-zinc-800"
+          type="button"
+          onClick={closeModal}
+        >
           Cancel
         </Button>
-        <Button className="text-white bg-indigo-700">Submit</Button>
+        <Button className="text-white bg-indigo-700" type="submit">
+          Submit
+        </Button>
       </div>
     </form>
   );

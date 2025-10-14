@@ -14,3 +14,10 @@ export interface IForm {
   label: string;
   type: "text";
 }
+
+export interface IValidation {
+  title: string;
+  description: string;
+  imageURL: string;
+  price: string;
+}
