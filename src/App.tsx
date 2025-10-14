@@ -3,6 +3,7 @@ import "./App.css";
 import Products from "./components/Products";
 import Modal from "./components/resusable/Modal";
 import Button from "./components/resusable/Button";
+import AddForm from "./components/AddForm";
 
 function App() {
   //———————————————————————————————— state ————————————————————————————————
@@ -32,12 +33,9 @@ function App() {
           Add Product
         </Button>
       </div>
-      {/*———————————————————————————————— Modal ————————————————————————————————*/}
+      {/*———————————————————————————————— Add Modal ————————————————————————————————*/}
       <Modal isOpen={isOpen} closeModal={closeModal} title="Add New Product">
-        <div className="flex space-x-2">
-          <Button className="text-white bg-zinc-800">Cancel</Button>
-          <Button className="text-white bg-indigo-700">Submit</Button>
-        </div>
+        <AddForm />
       </Modal>
       <Products />
     </main>
