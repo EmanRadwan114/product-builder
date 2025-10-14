@@ -1,4 +1,4 @@
-import type { IProduct } from "../interfaces/products";
+import type { IProduct } from "../interfaces/interfaces";
 import { txtSlice } from "../utils/functions";
 import Button from "./resusable/Button";
 import Image from "./resusable/Image";

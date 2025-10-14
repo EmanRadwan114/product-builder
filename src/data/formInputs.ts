@@ -1,4 +1,4 @@
-import type { IForm } from "../interfaces/formInputs";
+import type { IForm } from "../interfaces/interfaces";
 
 export const formInputs: IForm[] = [
   { name: "title", id: "title", label: "Product Title", type: "text" },
@@ -9,8 +9,8 @@ export const formInputs: IForm[] = [
     type: "text",
   },
   {
-    name: "image_url",
-    id: "image_url",
+    name: "imageURL",
+    id: "imageURL",
     label: "Product Image URL",
     type: "text",
   },

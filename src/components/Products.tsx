@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import products from "../data/products";
-import type { IProduct } from "../interfaces/products";
+import type { IProduct } from "../interfaces/interfaces";
 
 const Products = () => {
   const [productsList, setProductsList] = useState(products);
