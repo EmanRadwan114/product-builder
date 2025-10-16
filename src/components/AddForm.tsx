@@ -7,6 +7,7 @@ import { addProductSchema } from "../validation/schemas";
 import ErrorMsg from "./resusable/ErrorMsg";
 import CircleColors from "./CircleColors";
 import { colors } from "../data/products";
+import { v4 as uuid } from "uuid";
 
 //———————————————————————————————— Interface ————————————————————————————————
 interface IProps {
@@ -72,16 +73,10 @@ const AddForm = ({ closeModal, onAddProduct }: IProps) => {
       return;
     }
 
-    onAddProduct({ ...newProduct, colors: tempColors });
-
-    // setNewProduct((prev) => ({
-    //   ...prev,
-    //   title: "",
-    //   description: "",
-    //   price: "",
-    //   imageURL: "",
-    // }));
-    // setTempColors([]);
+    onAddProduct({ ...newProduct, id: uuid(), colors: tempColors });
+    setNewProduct(productInitValue);
+    setTempColors([]);
+    closeModal();
   };
 
   //———————————————————————————————— View ————————————————————————————————

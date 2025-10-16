@@ -37,11 +37,11 @@ function App() {
         <AddForm
           closeModal={closeModal}
           onAddProduct={(newProduct: IProduct) =>
-            setProducts((prev) => [...prev, newProduct])
+            setProducts((prev) => [newProduct, ...prev])
           }
         />
       </Modal>
-      <Products />
+      <Products products={products} />
     </main>
   );
 }
