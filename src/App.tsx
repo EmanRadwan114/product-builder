@@ -4,15 +4,19 @@ import Products from "./components/Products";
 import Modal from "./components/resusable/Modal";
 import Button from "./components/resusable/Button";
 import AddForm from "./components/AddForm";
+import type { IProduct } from "./interfaces/interfaces";
+import initialProducts from "./data/products";
 
 function App() {
   //———————————————————————————————— state ————————————————————————————————
   const [isOpen, setIsOpen] = useState(false);
+  const [products, setProducts] = useState<IProduct[]>(initialProducts);
 
   //———————————————————————————————— Handlers ————————————————————————————————
   const openModal = (): void => setIsOpen(true);
   const closeModal = (): void => setIsOpen(false);
 
+  console.log(products);
   //———————————————————————————————— View ————————————————————————————————
   return (
     <main className="container mx-auto px-5 py-10 md:px-10 xl:px-20">
@@ -30,7 +34,12 @@ function App() {
       </div>
       {/*———————————————————————————————— Add Modal ————————————————————————————————*/}
       <Modal isOpen={isOpen} closeModal={closeModal} title="Add New Product">
-        <AddForm closeModal={closeModal} />
+        <AddForm
+          closeModal={closeModal}
+          onAddProduct={(newProduct: IProduct) =>
+            setProducts((prev) => [...prev, newProduct])
+          }
+        />
       </Modal>
       <Products />
     </main>

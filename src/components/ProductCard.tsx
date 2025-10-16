@@ -1,5 +1,6 @@
 import type { IProduct } from "../interfaces/interfaces";
 import { txtSlice } from "../utils/functions";
+import CircleColors from "./CircleColors";
 import Button from "./resusable/Button";
 import Image from "./resusable/Image";
 
@@ -21,20 +22,9 @@ const ProductCard = ({ product }: IProps) => {
 
         {/* colors */}
         <div className="flex space-x-1 items-center my-5">
-          {colors.map((color, indx) => (
-            <span
-              key={indx}
-              className={`block w-5 h-5 rounded-full bg-[${color}] cursor-pointer`}
-            ></span>
+          {colors.map((color) => (
+            <CircleColors color={color} key={color} />
           ))}
-          {/* <span className="block w-5 h-5 rounded-full bg-amber-950 cursor-pointer"></span>
-          <span className="block w-5 h-5 rounded-full bg-indigo-500 cursor-pointer"></span>
-          <span className="block w-5 h-5 rounded-full bg-pink-800 cursor-pointer"></span>
-          <span className="block w-5 h-5 rounded-full bg-teal-800 cursor-pointer"></span>
-          <span className="block w-5 h-5 rounded-full bg-rose-600 cursor-pointer"></span>
-          <span className="block w-5 h-5 rounded-full bg-purple-500 cursor-pointer"></span>
-          <span className="block w-5 h-5 rounded-full bg-lime-600 cursor-pointer"></span>
-          <span className="block w-5 h-5 rounded-full bg-orange-500 cursor-pointer"></span> */}
         </div>
 
         {/* price */}
