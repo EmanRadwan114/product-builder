@@ -1,16 +1,33 @@
 import type { IProduct } from "../interfaces/interfaces";
-import { txtSlice } from "../utils/functions";
+import { formatePrice, sliceTxt } from "../utils/functions";
 import CircleColors from "./CircleColors";
 import Button from "./resusable/Button";
 import Image from "./resusable/Image";
 
 interface IProps {
   product: IProduct;
+  setSelectedProduct: (product: IProduct) => void;
+  setIsModalOpen: (val: boolean) => void;
 }
 
-const ProductCard = ({ product }: IProps) => {
+const ProductCard = ({
+  product,
+  setSelectedProduct,
+  setIsModalOpen,
+}: IProps) => {
+  //———————————————————————————————— State ————————————————————————————————
   const { title, description, category, colors, imageURL, price } = product;
 
+  //———————————————————————————————— Handlers ————————————————————————————————
+  const editProduct = () => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const deleteProduct = () => {
+    setSelectedProduct(product);
+  };
+  //———————————————————————————————— View ————————————————————————————————
   return (
     <div className="rounded-md border-2 border-zinc-200  max-w-md mx-auto lg:mx-0">
       <Image src={imageURL} alt={title} className="rounded-t-md w-full h-64" />
@@ -18,7 +35,7 @@ const ProductCard = ({ product }: IProps) => {
       {/* card body */}
       <div className="p-4">
         <h2 className="text-lg fw-semibold mb-1.5">{title}</h2>
-        <p className="text-zinc-500">{txtSlice(description)}</p>
+        <p className="text-zinc-500">{sliceTxt(description)}</p>
 
         {/* colors */}
         <div className="flex space-x-1 items-center my-5">
@@ -29,7 +46,7 @@ const ProductCard = ({ product }: IProps) => {
 
         {/* price */}
         <div className="flex justify-between items-center my-5">
-          <span className="fw-bold">{price} EGP</span>
+          <span className="fw-bold">{formatePrice(price)} EGP</span>
           <div className="flex gap-1.5 items-center">
             <Image
               src={category.imageURL}
@@ -42,8 +59,12 @@ const ProductCard = ({ product }: IProps) => {
 
         {/* actions */}
         <div className="flex space-x-2">
-          <Button className="bg-indigo-700 text-white">Edit</Button>
-          <Button className="bg-red-800 text-white">Delete</Button>
+          <Button className="bg-indigo-700 text-white" onClick={editProduct}>
+            Edit
+          </Button>
+          <Button className="bg-red-800 text-white" onClick={deleteProduct}>
+            Delete
+          </Button>
         </div>
       </div>
     </div>

@@ -5,18 +5,39 @@ import Modal from "./components/resusable/Modal";
 import Button from "./components/resusable/Button";
 import AddForm from "./components/AddForm";
 import type { IProduct } from "./interfaces/interfaces";
-import initialProducts from "./data/products";
+import initialProducts, { productInitValue } from "./data/products";
+import EditForm from "./components/EditForm";
 
 function App() {
   //———————————————————————————————— state ————————————————————————————————
-  const [isOpen, setIsOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [products, setProducts] = useState<IProduct[]>(initialProducts);
+  const [selectedProduct, setSelectedProduct] =
+    useState<IProduct>(productInitValue);
 
   //———————————————————————————————— Handlers ————————————————————————————————
-  const openModal = (): void => setIsOpen(true);
-  const closeModal = (): void => setIsOpen(false);
+  const openModal = (setModal: (val: boolean) => void): void => setModal(true);
+  const closeModal = (setModal: (val: boolean) => void): void =>
+    setModal(false);
 
-  console.log(products);
+  const onAddProduct = (newProduct: IProduct) =>
+    setProducts((prev) => [newProduct, ...prev]);
+
+  const onEditProduct = (selProduct: IProduct) => {
+    setProducts((prev) =>
+      prev.map((product) =>
+        product.id === selProduct.id ? { ...selProduct } : product
+      )
+    );
+  };
+
+  const onDeleteProduct = (selProduct: IProduct) => {
+    setProducts((prev) =>
+      prev.filter((product) => product.id !== selProduct.id)
+    );
+  };
+
   //———————————————————————————————— View ————————————————————————————————
   return (
     <main className="container mx-auto px-5 py-10 md:px-10 xl:px-20">
@@ -27,21 +48,42 @@ function App() {
         </h1>
         <Button
           className="bg-indigo-700 sm:flex-1 text-white"
-          onClick={openModal}
+          onClick={() => openModal(setIsAddModalOpen)}
         >
           Add Product
         </Button>
       </div>
+      {/*———————————————————————————————— products ————————————————————————————————*/}
+      <Products
+        products={products}
+        setSelectedProduct={setSelectedProduct}
+        setIsModalOpen={setIsEditModalOpen}
+      />
+
       {/*———————————————————————————————— Add Modal ————————————————————————————————*/}
-      <Modal isOpen={isOpen} closeModal={closeModal} title="Add New Product">
+      <Modal
+        isOpen={isAddModalOpen}
+        closeModal={() => closeModal(setIsAddModalOpen)}
+        title="Add New Product"
+      >
         <AddForm
-          closeModal={closeModal}
-          onAddProduct={(newProduct: IProduct) =>
-            setProducts((prev) => [newProduct, ...prev])
-          }
+          closeModal={() => closeModal(setIsAddModalOpen)}
+          onAddProduct={onAddProduct}
         />
       </Modal>
-      <Products products={products} />
+      {/*———————————————————————————————— Edit Modal ————————————————————————————————*/}
+      <Modal
+        isOpen={isEditModalOpen}
+        closeModal={() => closeModal(setIsEditModalOpen)}
+        title="Edit Product"
+      >
+        <EditForm
+          closeModal={() => closeModal(setIsEditModalOpen)}
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+          onEditProduct={onEditProduct}
+        />
+      </Modal>
     </main>
   );
 }

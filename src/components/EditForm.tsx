@@ -1,24 +1,28 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { formInputs } from "../data/formInputs";
-import Button from "./resusable/Button";
-import Input from "./resusable/Input";
+import { categories, colors, productInitValue } from "../data/products";
 import type { ICategory, IErrors, IProduct } from "../interfaces/interfaces";
 import { addProductSchema } from "../validation/schemas";
+import { formInputs } from "../data/formInputs";
+import Input from "./resusable/Input";
 import ErrorMsg from "./resusable/ErrorMsg";
-import CircleColors from "./CircleColors";
-import { categories, colors, productInitValue } from "../data/products";
-import { v4 as uuid } from "uuid";
 import SelectMenu from "./resusable/SelectMenu";
+import CircleColors from "./CircleColors";
+import Button from "./resusable/Button";
 
-//———————————————————————————————— Interface ————————————————————————————————
 interface IProps {
   closeModal: () => void;
-  onAddProduct: (products: IProduct) => void;
+  selectedProduct: IProduct;
+  setSelectedProduct: (product: IProduct) => void;
+  onEditProduct: (products: IProduct) => void;
 }
 
-const AddForm = ({ closeModal, onAddProduct }: IProps) => {
+const EditForm = ({
+  closeModal,
+  selectedProduct,
+  setSelectedProduct,
+  onEditProduct,
+}: IProps) => {
   //———————————————————————————————— State ————————————————————————————————
-  const [newProduct, setNewProduct] = useState<IProduct>(productInitValue);
   const [errorMsgs, setErrorMsgs] = useState<IErrors>({
     title: "",
     description: "",
@@ -26,10 +30,17 @@ const AddForm = ({ closeModal, onAddProduct }: IProps) => {
     price: "",
     colors: "",
   });
-  const [tempColors, setTempColors] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<ICategory>(
-    categories[0]
+
+  const [tempColors, setTempColors] = useState<string[]>(
+    selectedProduct.colors
   );
+
+  const productCategory = categories.find(
+    (categ) => categ.name === selectedProduct.category.name
+  )!;
+
+  const [selectedCategory, setSelectedCategory] =
+    useState<ICategory>(productCategory);
 
   //———————————————————————————————— Handlers ————————————————————————————————
   const storeColors = (color: string) => {
@@ -45,8 +56,8 @@ const AddForm = ({ closeModal, onAddProduct }: IProps) => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setNewProduct({
-      ...newProduct,
+    setSelectedProduct({
+      ...selectedProduct,
       [e.target.name]: e.target.value,
     });
 
@@ -62,7 +73,7 @@ const AddForm = ({ closeModal, onAddProduct }: IProps) => {
   const handleSumbit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    const { title, description, imageURL, price } = newProduct;
+    const { title, description, imageURL, price } = selectedProduct;
 
     const errors = addProductSchema({
       title,
@@ -79,16 +90,16 @@ const AddForm = ({ closeModal, onAddProduct }: IProps) => {
       return;
     }
 
-    onAddProduct({
-      ...newProduct,
-      id: uuid(),
+    onEditProduct({
+      ...selectedProduct,
       colors: tempColors,
       category: {
         name: selectedCategory.name,
         imageURL: selectedCategory.imageURL,
       },
     });
-    setNewProduct(productInitValue);
+
+    setSelectedProduct(productInitValue);
     setTempColors([]);
     closeModal();
   };
@@ -109,7 +120,7 @@ const AddForm = ({ closeModal, onAddProduct }: IProps) => {
             type={input.type}
             id={input.id}
             name={input.name}
-            value={newProduct[input.name]}
+            value={selectedProduct[input.name]}
             onChange={handleChange}
           />
           <ErrorMsg msg={errorMsgs[input.name]} />
@@ -160,11 +171,11 @@ const AddForm = ({ closeModal, onAddProduct }: IProps) => {
           Cancel
         </Button>
         <Button className="text-white bg-indigo-700" type="submit">
-          Add
+          Edit
         </Button>
       </div>
     </form>
   );
 };
 
-export default AddForm;
+export default EditForm;

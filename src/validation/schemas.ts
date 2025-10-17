@@ -1,4 +1,4 @@
-import type { IValidation } from "../interfaces/interfaces";
+import type { IErrors, IValidation } from "../interfaces/interfaces";
 
 /**
  *
@@ -7,13 +7,14 @@ import type { IValidation } from "../interfaces/interfaces";
  */
 
 export const addProductSchema = (product: IValidation) => {
-  const { title, description, imageURL, price } = product;
+  const { title, description, imageURL, price, colors } = product;
 
-  const errors: IValidation = {
+  const errors: IErrors = {
     title: "",
     description: "",
     imageURL: "",
     price: "",
+    colors: "",
   };
 
   //———————————————————————————————— Title Validation ————————————————————————————————
@@ -27,7 +28,7 @@ export const addProductSchema = (product: IValidation) => {
   //———————————————————————————————— Description Validation ————————————————————————————————
   if (!description.trim()) {
     errors.description = "Product description is required";
-  } else if (description.length < 3 || description.length > 50) {
+  } else if (description.length < 3 || description.length > 100) {
     errors.description =
       "Product description length should be between 3 and 100 characters length";
   }
@@ -46,6 +47,11 @@ export const addProductSchema = (product: IValidation) => {
     errors.price = "Product price is required";
   } else if (isNaN(+price)) {
     errors.price = "Please enter a valid price";
+  }
+
+  //———————————————————————————————— colors Validation ————————————————————————————————
+  if (!colors?.length) {
+    errors.colors = "Choose at least one color";
   }
 
   return errors;

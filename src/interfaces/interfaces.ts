@@ -1,5 +1,5 @@
 export interface IProduct {
-  id?: string | undefined;
+  id?: string;
   title: string;
   description: string;
   imageURL: string;
@@ -20,4 +20,18 @@ export interface IValidation {
   description: string;
   imageURL: string;
   price: string;
+  colors: string[];
+}
+export interface IErrors {
+  title: string;
+  description: string;
+  imageURL: string;
+  price: string;
+  colors: string;
+}
+
+export interface ICategory {
+  id: string;
+  name: string;
+  imageURL: string;
 }
