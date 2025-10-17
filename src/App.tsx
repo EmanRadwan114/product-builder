@@ -102,7 +102,7 @@ function App() {
           <p className="text-red-800 font-bold text-2xl text-center">
             Are you sure you want to delete this?
           </p>
-          <div className="flex flex-col sm:flex-row flex-wrap gap-2 mt-8">
+          <div className="flex flex-col sm:flex-row gap-2 mt-8">
             <Button
               className="text-white bg-zinc-800"
               onClick={() => closeModal(setIsDeleteModalOpen)}

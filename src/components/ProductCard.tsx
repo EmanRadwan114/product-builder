@@ -61,7 +61,7 @@ const ProductCard = ({
         </div>
 
         {/* actions */}
-        <div className="flex flex-col gap-2 sm:flex-row flex-wrap">
+        <div className="flex flex-col gap-2 sm:flex-row">
           <Button className="bg-indigo-700 text-white" onClick={editProduct}>
             Edit
           </Button>
