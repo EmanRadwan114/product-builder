@@ -1,5 +1,5 @@
 import type { IProduct } from "../interfaces/interfaces";
-import { formatePrice, sliceTxt } from "../utils/functions";
+import { formatPrice, sliceTxt } from "../utils/functions";
 import CircleColors from "./CircleColors";
 import Button from "./resusable/Button";
 import Image from "./resusable/Image";
@@ -7,13 +7,15 @@ import Image from "./resusable/Image";
 interface IProps {
   product: IProduct;
   setSelectedProduct: (product: IProduct) => void;
-  setIsModalOpen: (val: boolean) => void;
+  openEditModal: () => void;
+  openDelModal: () => void;
 }
 
 const ProductCard = ({
   product,
   setSelectedProduct,
-  setIsModalOpen,
+  openEditModal,
+  openDelModal,
 }: IProps) => {
   //———————————————————————————————— State ————————————————————————————————
   const { title, description, category, colors, imageURL, price } = product;
@@ -21,10 +23,11 @@ const ProductCard = ({
   //———————————————————————————————— Handlers ————————————————————————————————
   const editProduct = () => {
     setSelectedProduct(product);
-    setIsModalOpen(true);
+    openEditModal();
   };
 
   const deleteProduct = () => {
+    openDelModal();
     setSelectedProduct(product);
   };
   //———————————————————————————————— View ————————————————————————————————
@@ -46,7 +49,7 @@ const ProductCard = ({
 
         {/* price */}
         <div className="flex justify-between items-center my-5">
-          <span className="fw-bold">{formatePrice(price)} EGP</span>
+          <span className="fw-bold">{formatPrice(price)} EGP</span>
           <div className="flex gap-1.5 items-center">
             <Image
               src={category.imageURL}
@@ -58,7 +61,7 @@ const ProductCard = ({
         </div>
 
         {/* actions */}
-        <div className="flex space-x-2">
+        <div className="flex flex-col gap-2 sm:flex-row flex-wrap">
           <Button className="bg-indigo-700 text-white" onClick={editProduct}>
             Edit
           </Button>

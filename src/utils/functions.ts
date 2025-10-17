@@ -11,13 +11,8 @@ export const sliceTxt = (txt: string, max: number = 50) => {
   return txt;
 };
 
-// ^ JS DOC
-export const formatePrice = (price: string): string => {
-  const priceInDec = (+price / 1000).toString().split("");
-  const formatedPrice = priceInDec
-    .splice(priceInDec.length - 1 / 2, 0, ",")
-    .join();
-  console.log(formatedPrice);
-
-  return priceInDec[0] !== "0" ? priceInDec.join() : price;
+export const formatPrice = (price: string): string => {
+  const [intPart, decPart] = price.split(".");
+  const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return decPart ? `${formattedInt}.${decPart}` : formattedInt;
 };

@@ -4,10 +4,16 @@ import type { IProduct } from "../interfaces/interfaces";
 interface IProps {
   products: IProduct[];
   setSelectedProduct: (product: IProduct) => void;
-  setIsModalOpen: (val: boolean) => void;
+  openEditModal: () => void;
+  openDelModal: () => void;
 }
 
-const Products = ({ products, setSelectedProduct, setIsModalOpen }: IProps) => {
+const Products = ({
+  products,
+  setSelectedProduct,
+  openEditModal,
+  openDelModal,
+}: IProps) => {
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
       {products.map((product: IProduct) => (
@@ -15,7 +21,8 @@ const Products = ({ products, setSelectedProduct, setIsModalOpen }: IProps) => {
           product={product}
           key={product.id}
           setSelectedProduct={setSelectedProduct}
-          setIsModalOpen={setIsModalOpen}
+          openEditModal={openEditModal}
+          openDelModal={openDelModal}
         />
       ))}
     </section>
